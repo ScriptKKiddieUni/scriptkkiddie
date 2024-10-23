@@ -1,0 +1,217 @@
+-- Load OrionLib
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+-- Create a window with a beautiful theme
+local Window = OrionLib:MakeWindow({
+    Name = "ScriptKKiddie Universal 🌌", -- Window name with an emoji
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "YourConfig",
+    IntroText = "Welcome to ScriptKKiddie! 🎉",
+    IntroDuration = 3,
+})
+
+-- Function to copy link to clipboard
+local function copyToClipboard(link)
+    setclipboard(link) -- Copies the provided link to the clipboard
+end
+
+-- Get the player's username
+local player = game.Players.LocalPlayer
+local username = player.Name
+
+-- Add the Universal tab with an emoji
+local UniversalTab = Window:MakeTab({
+    Name = "Universal ⚔️", -- Tab name with an emoji
+    Icon = "rbxassetid://4483345998", -- Replace with any custom icon
+    PremiumOnly = false
+})
+
+-- Add buttons for each game in the Universal tab
+local games = {
+    "Murder Mystery 2 🔪",
+    "Adopt Me 🐾",
+    "Blade Ball 🏐",
+    "Da Hood 🏙️",
+    "Bloxfruits 🍉",
+    "Toilet Tower Defense 🚽",
+    "Anime Defenders 🛡️",
+    "Jailbreak 🚔",
+    "Murder vs Sheriff 🚓",
+    "Auto Build (BABFT) 🏗️",
+    "Build a Boat For Treasure 🛥️",
+    "Pls Donate 💵",
+    "Legend Of Speed ⚡",
+    "Brookhaven 🏡"
+}
+
+for _, gameName in ipairs(games) do
+    UniversalTab:AddButton({
+        Name = gameName, -- Button name
+        Callback = function()
+            -- Specific functionality for Murder Mystery 2
+            if gameName == "Murder Mystery 2 🔪" then
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptKKiddieUni/mm2halloween/refs/heads/main/support%20mid%20level%20exec.lua", true))()
+                print("Murder Mystery 2 script executed!") -- Log action
+                return
+            end
+
+            -- Copy the Discord link to the clipboard
+            copyToClipboard("https://discord.gg/RYdnzPudJd")
+
+            -- Show notifications when the button is clicked
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "ScriptKKiddie",
+                Text = "Thank you for using my script! 🎉",
+                Duration = 3 -- Duration for the first notification
+            })
+
+            wait(3) -- Wait for the first notification to finish before showing the next
+
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Discord Link",
+                Text = "Discord link copied to your clipboard! 📋",
+                Duration = 3 -- Duration for the second notification
+            })
+
+            print(gameName .. " button pressed!") -- Log which button was pressed
+        end
+    })
+end
+
+-- Add the Misc tab with an emoji
+local MiscTab = Window:MakeTab({
+    Name = "Misc 🛠️", -- Tab name with an emoji
+    Icon = "rbxassetid://4483345998", -- Replace with any custom icon
+    PremiumOnly = false
+})
+
+-- Noclip functionality
+local Noclip = nil
+local Clip = nil
+
+local function noclip()
+    Clip = false
+    local function Nocl()
+        if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+            for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                if v:IsA('BasePart') and v.CanCollide and v.Name ~= "floatName" then
+                    v.CanCollide = false
+                end
+            end
+        end
+        wait(0.21) -- Basic optimization
+    end
+    Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+local function clip()
+    if Noclip then Noclip:Disconnect() end
+    Clip = true
+end
+
+-- Add Noclip button to the Misc tab
+MiscTab:AddButton({
+    Name = "Noclip", -- Button name
+    Callback = function()
+        noclip() -- Call noclip function to enable noclip
+        print("Noclip activated!") -- Log action
+    end
+})
+
+-- Walkspeed functionality
+local currentWalkspeed = 16
+
+MiscTab:AddSlider({
+    Name = "Walkspeed ⚡", -- Slider name with an emoji
+    Min = 1,
+    Max = 500, -- Max set to 500
+    Default = 16,
+    Color = Color3.fromRGB(255, 0, 0),
+    Increment = 1,
+    ValueName = "Speed",
+    Callback = function(value)
+        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = value -- Set the walkspeed to the slider value
+            print("Walkspeed set to: " .. value) -- Log the new walkspeed
+        end
+    end
+})
+
+-- Jump Power functionality
+local currentJumpPower = 50
+
+MiscTab:AddSlider({
+    Name = "Jump Power 🦘", -- Slider name with an emoji
+    Min = 1,
+    Max = 500, -- Max set to 500
+    Default = 50,
+    Color = Color3.fromRGB(0, 255, 0),
+    Increment = 10,
+    ValueName = "Jump",
+    Callback = function(value)
+        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.JumpPower = value -- Set the jump power to the slider value
+            print("Jump Power set to: " .. value) -- Log the new jump power
+        end
+    end
+})
+
+-- Add Infinite Jump toggle to the Misc tab
+MiscTab:AddToggle({
+    Name = "Infinite Jump", -- Toggle name
+    Default = false,
+    Callback = function(state)
+        local InfiniteJumpEnabled = state
+        game:GetService("UserInputService").JumpRequest:connect(function()
+            if InfiniteJumpEnabled then
+                game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+            end
+        end)
+        print("Infinite Jump " .. (state and "enabled" or "disabled")) -- Log action
+    end
+})
+
+-- Add Fly button to the Misc tab
+MiscTab:AddButton({
+    Name = "Fly ✈️", -- Button name with an emoji
+    Callback = function()
+        loadstring(game:HttpGet(('https://raw.githubusercontent.com/zackdoesstuff/ROBLOX-Fly-Script/refs/heads/main/Fly%20Script')))()
+        print("Fly activated!") -- Log action
+    end
+})
+
+-- Add BTools button to the Misc tab
+MiscTab:AddButton({
+    Name = "BTools 🔨", -- Button name with an emoji
+    Callback = function()
+        loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/BTools.txt"))()
+        print("BTools activated!") -- Log action
+    end
+})
+
+-- Add God button to the Misc tab
+MiscTab:AddButton({
+    Name = "God ⚡", -- Button name with an emoji
+    Callback = function()
+        loadstring(game:HttpGet("https://freenote.biz/raw/Fhpx5r5A8M"))()
+        print("God mode activated!") -- Log action
+    end
+})
+
+-- Add About Us tab with an emoji
+local AboutTab = Window:MakeTab({
+    Name = "About Us 📜", -- Tab name with an emoji
+    Icon = "rbxassetid://4483345998", -- Replace with any custom icon
+    PremiumOnly = false
+})
+
+-- Add description and Discord link to About Us tab
+AboutTab:AddParagraph("About Us", "Welcome to ScriptKKiddie! This script offers a variety of features to enhance your gaming experience. Join our Discord community for updates and support!")
+AboutTab:AddParagraph("Discord", "Join us: https://discord.gg/RYdnzPudJd")
+AboutTab:AddParagraph("YouTube Channel", "Check out our YouTube channel for tutorials and more: https://www.youtube.com/@helpbeast4580")
+
+-- Finalize the script
+OrionLib:Init()
