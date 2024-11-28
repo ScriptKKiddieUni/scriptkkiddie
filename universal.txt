@@ -27,11 +27,11 @@ local UniversalTab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Games list with "PETS GO" and "Blox Fruits" added
+-- Games list with Blade Ball included
 local games = {
     "Murder Mystery 2 🔪",
     "Adopt Me 🐾",
-    "Blade Ball 🏐",
+    "Blade Ball 🏐", -- New button for Blade Ball
     "Da Hood 🏙️",
     "Blox Fruits 🍉",
     "Toilet Tower Defense 🚽",
@@ -43,7 +43,7 @@ local games = {
     "Pls Donate 💵",
     "Legend Of Speed ⚡",
     "Brookhaven 🏡",
-    "PETS GO 🐾" -- New button for PETS GO
+    "PETS GO 🐾"
 }
 
 for _, gameName in ipairs(games) do
@@ -71,6 +71,19 @@ for _, gameName in ipairs(games) do
             if gameName == "Blox Fruits 🍉" then
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptKKiddieUni/BLOXFRUIT/refs/heads/main/AUTO%20LEVI", true))()
                 print("Blox Fruits script executed!")
+                return
+            end
+
+            if gameName == "Blade Ball 🏐" then
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptKKiddieUni/bladeball/refs/heads/main/subject.txt", true))()
+                print("Blade Ball script executed!")
+
+                -- Notify the player
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Blade Ball",
+                    Text = "Blade Ball script loaded successfully! 🏐",
+                    Duration = 3
+                })
                 return
             end
 
@@ -168,48 +181,6 @@ MiscTab:AddSlider({
             humanoid.JumpPower = value
             print("Jump Power set to: " .. value)
         end
-    end
-})
-
--- Add Infinite Jump toggle
-MiscTab:AddToggle({
-    Name = "Infinite Jump",
-    Default = false,
-    Callback = function(state)
-        local InfiniteJumpEnabled = state
-        game:GetService("UserInputService").JumpRequest:connect(function()
-            if InfiniteJumpEnabled then
-                game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-            end
-        end)
-        print("Infinite Jump " .. (state and "enabled" or "disabled"))
-    end
-})
-
--- Add Fly button
-MiscTab:AddButton({
-    Name = "Fly ✈️",
-    Callback = function()
-        loadstring(game:HttpGet(('https://raw.githubusercontent.com/zackdoesstuff/ROBLOX-Fly-Script/refs/heads/main/Fly%20Script')))()
-        print("Fly activated!")
-    end
-})
-
--- Add BTools button
-MiscTab:AddButton({
-    Name = "BTools 🔨",
-    Callback = function()
-        loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/BTools.txt"))()
-        print("BTools activated!")
-    end
-})
-
--- Add God button
-MiscTab:AddButton({
-    Name = "God ⚡",
-    Callback = function()
-        loadstring(game:HttpGet("https://freenote.biz/raw/Fhpx5r5A8M"))()
-        print("God mode activated!")
     end
 })
 
